@@ -19,9 +19,6 @@ This should includes both well-written text and conversational text, which can e
 #### 3. Unlabeled data (audios without transcriptions) of your own language. 
 This is optional but very crucial. A good amount of unlabeled audios (eg. 500 hours) will significantly reduce the amount of labeled data needed, and also boost up the model performance. Youtube/Podcast is a great place to collect the data for your own language
 
-## Install instruction
-Please follow this [instruction](https://github.com/mailong25/self-supervised-speech-recognition/blob/master/Dependencies.md)
-
 ## Steps to build an accurate speech recognition model for your language
 
 ### 1. Train a self-supervised model on unlabeled data (Pretrain)
@@ -45,14 +42,14 @@ wget https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt
 python3 pretrain.py --fairseq_path path/to/libs/fairseq --audio_path path/to/audio_directory --init_model path/to/wav2vec_small.pt
 ```
 Where:
- - fairseq_path: path to installed fairseq library, after install [instruction](https://github.com/mailong25/self-supervised-speech-recognition/blob/master/Dependencies.md)
+ - fairseq_path: path to installed fairseq library
  - audio_path: path to unlabel audio directory
  - init_model: downloaded model from step 1.2
 
 Logs and checkpoints will be stored at outputs directory\
 Log_file path: outputs/date_time/exp_id/hydra_train.log.  You should check the loss value to decide when to stop the training process.\
 Best_checkpoint path: outputs/date_time/exp_id/checkpoints/checkpoint_best.pt\
-In my casse, it took ~ 4 days for the model to converge, train on 100 hours of data using 2 NVIDIA Tesla V100.
+In my case, it took ~ 4 days for the model to converge, train on 100 hours of data using 2 NVIDIA Tesla V100.
 
 ### 2. Finetune the self-supervised model on the labeled data
 
@@ -97,7 +94,7 @@ Where:
 Logs and checkpoints will be stored at outputs directory\
 Log_file path: outputs/date_time/exp_id/hydra_train.log. You should check the loss value to decide when to stop the training process.\
 Best_checkpoint path: outputs/date_time/exp_id/checkpoints/checkpoint_best.pt\
-In my casse, it took ~ 12 hours for the model to converge, train on 100 hours of data using 2 NVIDIA Tesla V100.
+In my case, it took ~ 12 hours for the model to converge, train on 100 hours of data using 2 NVIDIA Tesla V100.
 
 ### 3. Train a language model
 #### 3.1 Prepare text corpus
@@ -130,7 +127,7 @@ Example of a text corpus file for Chinese case:
 python3 train_lm.py --kenlm_path path/to/libs/kenlm --transcript_file path/to/transcript.txt --additional_file path/to/text_corpus.txt --ngram 3 --output_path ./lm
 ```
 Where:
- - kenlm_path: path to installed kenlm library, after install [instruction](https://github.com/mailong25/self-supervised-speech-recognition/blob/master/Dependencies.md)
+ - kenlm_path: path to installed kenlm library, after install 
  - transcript_file: path to transcript file from step 2.1
  - additional_file: path to text corpus file from step 3.1
 
@@ -164,10 +161,6 @@ sys.argv = ['']
 
 ## Pre-trained models (Pretrain + Fine-tune + LM)
 - [Vietnamese](https://drive.google.com/file/d/1kZFdvMQt-R7fVebTbfWMk8Op7I9d24so/view?usp=sharing)
-
-
-## Older version on Vietnamese speech recognition: 
-https://github.com/mailong25/self-supervised-speech-recognition/tree/vietnamese
 
 ## Reference:
 Paper: wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations: https://arxiv.org/abs/2006.11477 \
